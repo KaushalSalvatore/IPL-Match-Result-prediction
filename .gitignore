@@ -119,6 +119,12 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+
+# notebook & data set 
+notebook/
+dataset/
+
+
 # Environments
 .env
 .venv
@@ -127,6 +133,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+iplMatchPrediction_venv/
 
 # Spyder project settings
 .spyderproject
