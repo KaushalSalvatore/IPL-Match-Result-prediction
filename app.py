@@ -17,76 +17,74 @@ app = Flask(__name__)
 def home():
 	return render_template('index.html')
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    temp_array = list()
-    
-    if request.method == 'POST':
+@app.route('/score_predict', methods=['POST','GET'])
+def score_predict():
+    if request.method == 'GET':
+        return render_template('score_prediction.html')
+    else:
+        temp_array = list()
+        if request.method == 'POST':
+            batting_team = request.form['batting-team']
+            if batting_team == 'Chennai Super Kings':
+                temp_array = temp_array + [1,0,0,0,0,0,0,0,0,0]
+            elif batting_team == 'Delhi Daredevils':
+                temp_array = temp_array + [0,1,0,0,0,0,0,0,0,0]
+            elif batting_team == 'Kings XI Punjab':
+                temp_array = temp_array + [0,0,1,0,0,0,0,0,0,0]
+            elif batting_team == 'Kolkata Knight Riders':
+                temp_array = temp_array + [0,0,0,1,0,0,0,0,0,0]
+            elif batting_team == 'Mumbai Indians':
+                temp_array = temp_array + [0,0,0,0,1,0,0,0,0,0]
+            elif batting_team == 'Rajasthan Royals':
+                temp_array = temp_array + [0,0,0,0,0,1,0,0,0,0]
+            elif batting_team == 'Royal Challengers Bangalore':
+                temp_array = temp_array + [0,0,0,0,0,0,1,0,0,0]
+            elif batting_team == 'Sunrisers Hyderabad':
+                temp_array = temp_array + [0,0,0,0,0,0,0,1,0,0]
+            elif batting_team == 'Pune Warriors':
+                temp_array = temp_array + [0,0,0,0,0,0,0,0,1,0]
+            elif batting_team == 'Gujarat Lions':
+                temp_array = temp_array + [0,0,0,0,0,0,0,0,0,1]
+                
+                
+            bowling_team = request.form['bowling-team']
+            if bowling_team == 'Chennai Super Kings':
+                temp_array = temp_array + [1,0,0,0,0,0,0,0,0,0]
+            elif bowling_team == 'Delhi Daredevils':
+                temp_array = temp_array + [0,1,0,0,0,0,0,0,0,0]
+            elif bowling_team == 'Kings XI Punjab':
+                temp_array = temp_array + [0,0,1,0,0,0,0,0,0,0]
+            elif bowling_team == 'Kolkata Knight Riders':
+                temp_array = temp_array + [0,0,0,1,0,0,0,0,0,0]
+            elif bowling_team == 'Mumbai Indians':
+                temp_array = temp_array + [0,0,0,0,1,0,0,0,0,0]
+            elif bowling_team == 'Rajasthan Royals':
+                temp_array = temp_array + [0,0,0,0,0,1,0,0,0,0]
+            elif bowling_team == 'Royal Challengers Bangalore':
+                temp_array = temp_array + [0,0,0,0,0,0,1,0,0,0]
+            elif bowling_team == 'Sunrisers Hyderabad':
+                temp_array = temp_array + [0,0,0,0,0,0,0,1,0,0]
+            elif batting_team == 'Pune Warriors':
+                temp_array = temp_array + [0,0,0,0,0,0,0,0,1,0]
+            elif batting_team == 'Gujarat Lions':
+                temp_array = temp_array + [0,0,0,0,0,0,0,0,0,1]
+            
+            overs = float(request.form['overs'])
+            runs = int(request.form['runs'])
+            wickets = int(request.form['wickets'])
+            runs_in_prev_5 = int(request.form['runs_in_prev_5'])
+            wickets_in_prev_5 = int(request.form['wickets_in_prev_5'])
         
-        batting_team = request.form['batting-team']
-        if batting_team == 'Chennai Super Kings':
-            temp_array = temp_array + [1,0,0,0,0,0,0,0,0,0]
-        elif batting_team == 'Delhi Daredevils':
-            temp_array = temp_array + [0,1,0,0,0,0,0,0,0,0]
-        elif batting_team == 'Kings XI Punjab':
-            temp_array = temp_array + [0,0,1,0,0,0,0,0,0,0]
-        elif batting_team == 'Kolkata Knight Riders':
-            temp_array = temp_array + [0,0,0,1,0,0,0,0,0,0]
-        elif batting_team == 'Mumbai Indians':
-            temp_array = temp_array + [0,0,0,0,1,0,0,0,0,0]
-        elif batting_team == 'Rajasthan Royals':
-            temp_array = temp_array + [0,0,0,0,0,1,0,0,0,0]
-        elif batting_team == 'Royal Challengers Bangalore':
-            temp_array = temp_array + [0,0,0,0,0,0,1,0,0,0]
-        elif batting_team == 'Sunrisers Hyderabad':
-            temp_array = temp_array + [0,0,0,0,0,0,0,1,0,0]
-        elif batting_team == 'Pune Warriors':
-            temp_array = temp_array + [0,0,0,0,0,0,0,0,1,0]
-        elif batting_team == 'Gujarat Lions':
-            temp_array = temp_array + [0,0,0,0,0,0,0,0,0,1]
-            
-            
-        bowling_team = request.form['bowling-team']
-        if bowling_team == 'Chennai Super Kings':
-            temp_array = temp_array + [1,0,0,0,0,0,0,0,0,0]
-        elif bowling_team == 'Delhi Daredevils':
-            temp_array = temp_array + [0,1,0,0,0,0,0,0,0,0]
-        elif bowling_team == 'Kings XI Punjab':
-            temp_array = temp_array + [0,0,1,0,0,0,0,0,0,0]
-        elif bowling_team == 'Kolkata Knight Riders':
-            temp_array = temp_array + [0,0,0,1,0,0,0,0,0,0]
-        elif bowling_team == 'Mumbai Indians':
-            temp_array = temp_array + [0,0,0,0,1,0,0,0,0,0]
-        elif bowling_team == 'Rajasthan Royals':
-            temp_array = temp_array + [0,0,0,0,0,1,0,0,0,0]
-        elif bowling_team == 'Royal Challengers Bangalore':
-            temp_array = temp_array + [0,0,0,0,0,0,1,0,0,0]
-        elif bowling_team == 'Sunrisers Hyderabad':
-            temp_array = temp_array + [0,0,0,0,0,0,0,1,0,0]
-        elif batting_team == 'Pune Warriors':
-            temp_array = temp_array + [0,0,0,0,0,0,0,0,1,0]
-        elif batting_team == 'Gujarat Lions':
-            temp_array = temp_array + [0,0,0,0,0,0,0,0,0,1]
-           
-        overs = float(request.form['overs'])
-        runs = int(request.form['runs'])
-        wickets = int(request.form['wickets'])
-        runs_in_prev_5 = int(request.form['runs_in_prev_5'])
-        wickets_in_prev_5 = int(request.form['wickets_in_prev_5'])
-       
-        temp_array = temp_array + [overs, runs, wickets, runs_in_prev_5, wickets_in_prev_5]
-       
-
-        data = np.array([temp_array])
-        print(data)
-        my_prediction = int(score_predict_regressor.predict(data)[0])
-              
-        return render_template('result.html', lower_limit = my_prediction-10, upper_limit = my_prediction+5)
-    
+            temp_array = temp_array + [overs, runs, wickets, runs_in_prev_5, wickets_in_prev_5]
+            data = np.array([temp_array])
+            my_prediction = int(score_predict_regressor.predict(data)[0])
+            batting_team = batting_team
+            return render_template('result.html', lower_limit = my_prediction-10, upper_limit = my_prediction+5,batting_team=batting_team )
+        
 
 
-@app.route('/winprediction', methods=['GET','POST'])
-def win_probability_predict():
+@app.route('/win_probability', methods=['GET','POST'])
+def win_probability():
     if request.method == 'GET':
         return render_template('win_probability.html')
     else:
@@ -115,14 +113,9 @@ def win_probability_predict():
         
 
         result = win_probability_regressor.predict_proba(input_df)
-        loss = result[0][0]
-        win = result[0][1]
-        print({loss})
-        print({win})
-        return render_template('win_probability.html')
-
+        loss = result[0][0]*100
+        win = result[0][1]*100
+        return render_template('result.html',loss=loss,win=win,batting_team=batting_team,bowling_team=bowling_team)
     
-
-
 if __name__ == '__main__':
 	app.run(debug=True)
